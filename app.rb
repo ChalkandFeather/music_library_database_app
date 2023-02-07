@@ -5,6 +5,7 @@ require_relative 'lib/database_connection'
 require_relative 'lib/album_repository'
 require_relative 'lib/artist_repository'
 require_relative 'lib/album'
+require_relative 'lib/artist'
 
 DatabaseConnection.connect
 
@@ -34,5 +35,26 @@ class Application < Sinatra::Base
       new_album.artist_id = params[:artist_id]
       
       repo.create(new_album)
+    end
+
+    get '/artists' do
+      repo = ArtistRepository.new
+      artists = repo.all
+
+      response = artists.map do |artist|
+        artist.name
+      end.join(', ')
+      
+      return response
+    end
+
+    post '/artists' do
+      repo = ArtistRepository.new
+      new_artist = Artist.new
+
+      new_artist.name = params[:name]
+      new_artist.genre = params[:genre]
+      
+      repo.create(new_artist)
     end
 end

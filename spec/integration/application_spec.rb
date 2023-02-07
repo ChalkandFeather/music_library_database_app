@@ -10,17 +10,28 @@ describe Application do
   # class so our tests work.
   let(:app) { Application.new }
 
-  xcontext "POST/albums" do
+  before(:each) do
+    albums_seeds_sql = File.read("spec/seeds/albums_seeds.sql")
+    artists_seeds_sql = File.read("spec/seeds/artists_seeds.sql")
+    connection = PG.connect({ host: "127.0.0.1", dbname: "music_library_test" })
+    connection.exec(albums_seeds_sql)
+    connection.exec(artists_seeds_sql)
+  end
+
+  context "POST/albums" do
     it 'returns 200 OK and creates new album in database' do
-      response = post('/albums', title: 'Voyage', release_year: 2022, artist_id: 2)
-      expect(response.status).to eq(200)
+      post_response = post('/albums', title: 'Voyage', release_year: 2022, artist_id: 2)
+      expect(post_response.status).to eq(200)
+
+      get_response = get('/albums')
+      expect(get_response.body).to include "Voyage" 
     end
   end
 
   context "GET/albums" do
     it 'returns 200 OK and lists all albums in database' do
       response = get('/albums')
-      expected_response = 'Doolittle, Surfer Rosa, Waterloo, Super Trouper, Bossanova,Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring'
+      expected_response = 'Doolittle, Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring'
    
       expect(response.status).to eq(200)
       expect(response.body).to eq expected_response

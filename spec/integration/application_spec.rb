@@ -38,13 +38,31 @@ describe Application do
   end
 end
 
-context "GET to /" do
-  it 'contains a h1 title containing greeting hello' do
-    response = get('/')
-
-    expect(response.body).to include('<h1>Hello!</h1>')
+context "GET  /" do
+  it 'contains a h1 title containing greeting hello with a given name' do
+    response = get('/', name: 'Marie')
+    
+    expect(response.status).to eq(200)
+    expect(response.body).to include('<h1>Hello Marie!</h1>')
   end
 end
+
+
+
+
+context "GET /albums/:id" do
+  it 'contains a h1 title containing albums id 1 and body params from albums id 1' do
+    response = get('/albums/1')
+
+    expect(response.status).to eq(200)
+    expect(response.body).to include('<h1>Doolittle</h1>')
+    expect(response.body).to include('Release year: 1989')
+    expect(response.body).to include ('Artist: Pixies')
+  end
+end
+
+
+
   
     context "GET/artists" do
     it 'returns 200 OK and lists all artists in database' do

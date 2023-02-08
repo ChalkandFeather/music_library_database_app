@@ -39,11 +39,27 @@ class Application < Sinatra::Base
 
     
   get '/' do
+    @name = params[:name]
     # The erb method takes the view file name (as a Ruby symbol)
     # and reads its content so it can be sent 
     # in the response.
     return erb(:index)
   end
+
+ 
+
+  get '/albums/:id' do
+    # Set an instance variable in the route block.
+    @id = params[:id]
+  
+    # The process is then the following:
+    #
+    # 1. Ruby reads the .erb view file
+    # 2. It looks for any ERB tags and replaces it by their final value
+    # 3. The final generated HTML is sent in the response
+    return erb(:albums)
+    end
+
 
     get '/artists' do
       repo = ArtistRepository.new

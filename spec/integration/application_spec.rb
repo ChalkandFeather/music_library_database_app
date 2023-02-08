@@ -51,7 +51,7 @@ end
 
 
 context "GET /albums/:id" do
-  it 'contains a h1 title containing albums id 1 and body params from albums id 1' do
+  it 'contains a h1 title containing albums title  and body params from albums id 1' do
     response = get('/albums/1')
 
     expect(response.status).to eq(200)
@@ -61,8 +61,14 @@ context "GET /albums/:id" do
   end
 end
 
+it 'contains a h1 title containing albums title  and body params from albums id 2' do
+  response = get('/albums/2')
 
-
+  expect(response.status).to eq(200)
+  expect(response.body).to include('<h1>Surfer Rosa</h1>')
+  expect(response.body).to include('Release year: 1988')
+  expect(response.body).to include ('Artist: Pixies')
+end
   
     context "GET/artists" do
     it 'returns 200 OK and lists all artists in database' do

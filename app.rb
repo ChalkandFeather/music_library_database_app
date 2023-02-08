@@ -49,8 +49,15 @@ class Application < Sinatra::Base
  
 
   get '/albums/:id' do
+    
+  repo = AlbumRepository.new
+  artist_repo = ArtistRepository.new
+  
     # Set an instance variable in the route block.
     @id = params[:id]
+    @album = repo.find(@id) 
+    @artist = artist_repo.find(@album.artist_id)
+    
   
     # The process is then the following:
     #

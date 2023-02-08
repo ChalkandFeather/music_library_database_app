@@ -37,6 +37,14 @@ describe Application do
       expect(response.body).to eq expected_response
   end
 end
+
+context "GET to /" do
+  it 'contains a h1 title containing greeting hello' do
+    response = get('/')
+
+    expect(response.body).to include('<h1>Hello!</h1>')
+  end
+end
   
     context "GET/artists" do
     it 'returns 200 OK and lists all artists in database' do

@@ -37,6 +37,14 @@ class Application < Sinatra::Base
       repo.create(new_album)
     end
 
+    
+  get '/' do
+    # The erb method takes the view file name (as a Ruby symbol)
+    # and reads its content so it can be sent 
+    # in the response.
+    return erb(:index)
+  end
+
     get '/artists' do
       repo = ArtistRepository.new
       artists = repo.all
@@ -44,7 +52,7 @@ class Application < Sinatra::Base
       response = artists.map do |artist|
         artist.name
       end.join(', ')
-      
+    
       return response
     end
 

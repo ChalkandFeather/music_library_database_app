@@ -14,7 +14,7 @@ describe AlbumRepository do
 
   it 'finds all albums' do
     repo = AlbumRepository.new
-
+   
     albums = repo.all
     
     expect(albums.length).to eq(12)

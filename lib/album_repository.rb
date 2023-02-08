@@ -26,7 +26,7 @@ class AlbumRepository
 
     return albums
   end
-
+  
   def find(id)
     sql = 'SELECT id, title, release_year, artist_id FROM albums WHERE id = $1;'
     result_set = DatabaseConnection.exec_params(sql, [id])

@@ -31,10 +31,12 @@ describe Application do
   context "GET/albums" do
     it 'returns 200 OK and lists all albums in database' do
       response = get('/albums')
-      expected_response = 'Doolittle, Surfer Rosa, Waterloo, Super Trouper, Bossanova, Lover, Folklore, I Put a Spell on You, Baltimore, Here Comes the Sun, Fodder on My Wings, Ring Ring'
-   
+  
       expect(response.status).to eq(200)
-      expect(response.body).to eq expected_response
+      expect(response.body).to include('<h1>Albums</h1>')
+      expect(response.body).to include('Doolittle')	
+      expect(response.body).to include('Surfer Rosa')
+      expect(response.body).to include('Waterloo')
   end
 end
 

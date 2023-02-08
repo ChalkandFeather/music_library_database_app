@@ -18,13 +18,11 @@ class Application < Sinatra::Base
 
   get '/albums' do
     repo = AlbumRepository.new
-    albums = repo.all
-
-    response = albums.map do |album|
-      album.title
-    end.join(', ')
-    return response
+    @albums = repo.all
+      
+    return erb(:albums_all)
     end
+    
   
     post '/albums' do
       repo = AlbumRepository.new
@@ -57,14 +55,12 @@ class Application < Sinatra::Base
     @id = params[:id]
     @album = repo.find(@id) 
     @artist = artist_repo.find(@album.artist_id)
-    
-  
     # The process is then the following:
     #
     # 1. Ruby reads the .erb view file
     # 2. It looks for any ERB tags and replaces it by their final value
     # 3. The final generated HTML is sent in the response
-    return erb(:albums)
+    return erb(:albums_id)
     end
 
 

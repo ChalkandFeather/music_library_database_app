@@ -22,9 +22,18 @@ class Application < Sinatra::Base
       
     return erb(:albums_all)
     end
-    
-  
+
+  get '/albums/new' do
+      return erb(:new_album)
+    end
+
+
     post '/albums' do
+      if invalid_request_parameters?
+        status 400
+      return ''
+      end
+
       repo = AlbumRepository.new
       new_album = Album.new
 
@@ -33,36 +42,31 @@ class Application < Sinatra::Base
       new_album.artist_id = params[:artist_id]
       
       repo.create(new_album)
+      return ''
+    end
+#below copied to post /albums as method
+    def invalid_request_parameters?
+     return params[:title] == nil || params[:release_year] ||
+      params[:artist_id] == nil
     end
 
+
+    get '/albums/:id' do
+      
+    repo = AlbumRepository.new
+    artist_repo = ArtistRepository.new
     
-  get '/' do
-    @name = params[:name]
-    # The erb method takes the view file name (as a Ruby symbol)
-    # and reads its content so it can be sent 
-    # in the response.
-    return erb(:index)
-  end
-
- 
-
-  get '/albums/:id' do
-    
-  repo = AlbumRepository.new
-  artist_repo = ArtistRepository.new
-  
-    # Set an instance variable in the route block.
-    @id = params[:id]
-    @album = repo.find(@id) 
-    @artist = artist_repo.find(@album.artist_id)
-    # The process is then the following:
-    #
-    # 1. Ruby reads the .erb view file
-    # 2. It looks for any ERB tags and replaces it by their final value
-    # 3. The final generated HTML is sent in the response
-    return erb(:albums_id)
-    end
-
+      # Set an instance variable in the route block.
+      @id = params[:id]
+      @album = repo.find(@id) 
+      @artist = artist_repo.find(@album.artist_id)
+      # The process is then the following:
+      #
+      # 1. Ruby reads the .erb view file
+      # 2. It looks for any ERB tags and replaces it by their final value
+      # 3. The final generated HTML is sent in the response
+      return erb(:albums_id)
+      end
 
   get '/artists/:id' do
     

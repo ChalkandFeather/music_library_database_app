@@ -64,16 +64,31 @@ class Application < Sinatra::Base
     end
 
 
+  get '/artists/:id' do
+    
+    repo = ArtistRepository.new
+   
+    
+      # Set an instance variable in the route block.
+      @id = params[:id]
+      @artist = repo.find(@id) 
+      
+      # The process is then the following:
+      #
+      # 1. Ruby reads the .erb view file
+      # 2. It looks for any ERB tags and replaces it by their final value
+      # 3. The final generated HTML is sent in the response
+      return erb(:artist_id)
+      end
+
+
     get '/artists' do
       repo = ArtistRepository.new
-      artists = repo.all
+      @artists = repo.all
+      
+      return erb(:artists_all)
+      end
 
-      response = artists.map do |artist|
-        artist.name
-      end.join(', ')
-    
-      return response
-    end
 
     post '/artists' do
       repo = ArtistRepository.new

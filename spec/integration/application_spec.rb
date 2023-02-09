@@ -61,12 +61,25 @@ it 'contains a h1 title containing albums title  and body params from albums id 
 end
   
     context "GET/artists" do
-    it 'returns 200 OK and lists all artists in database' do
-      response = get('/artists')
-      expected_response = 'Pixies, ABBA, Taylor Swift, Nina Simone'
-   
-      expect(response.status).to eq(200)
-      expect(response.body).to eq expected_response
+      it 'lists all artists in database' do
+        response = get('/artists')
+    
+        expect(response.status).to eq(200)
+        expect(response.body).to include('<a href="/artists/1">Pixies</a><br />')	
+        expect(response.body).to include('<a href="/artists/2">ABBA</a><br />')	
+        expect(response.body).to include('<a href="/artists/3">Taylor Swift</a><br />')	
+    end
+  end
+
+
+context "GET /artists/:id" do
+  it 'contains artist and body params from artist id 1' do
+    response = get('/artists/1')
+
+    expect(response.status).to eq(200)
+    expect(response.body).to include('<h1>Artist</h1>')
+    expect(response.body).to include('Name: Pixies')
+    expect(response.body).to include('Genre: Rock')
     end
   end
 

@@ -12,8 +12,7 @@ class ArtistRepository
     # Loop through it to create a model
     # object for each record hash.
     result_set.each do |record|
-
-      # Create a new model object
+     # Create a new model object
       # with the record data.
       artist = Artist.new
       artist.id = record['id'].to_i

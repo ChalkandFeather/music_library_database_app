@@ -1,18 +1,4 @@
-<!-- GET /albums -->
-
-<html>
-  <head></head>
-  <body>
-  
-    <h1>Albums</h1>
-    <p>
-     <% @albums.each do |album| %>
-     <div>
-     <%= album.title %> <%= album.release_year %>
-      </p>
-      </div>
-  <% end %>
+<% @albums.each do |album| %>
+  <a href="/albums/<%= album.id %>"><%= album.title %></a><br />
+<% end %>
    
-<!-- loop through albums returning title/release_year -->
-  </body>
-</html>

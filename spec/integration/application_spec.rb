@@ -29,27 +29,15 @@ describe Application do
   end
 
   context "GET/albums" do
-    it 'returns 200 OK and lists all albums in database' do
+    it 'lists all albums in database' do
       response = get('/albums')
   
       expect(response.status).to eq(200)
-      expect(response.body).to include('<h1>Albums</h1>')
-      expect(response.body).to include('Doolittle')	
-      expect(response.body).to include('Surfer Rosa')
-      expect(response.body).to include('Waterloo')
+      expect(response.body).to include('<a href="/albums/2">Surfer Rosa</a><br />')	
+      expect(response.body).to include('<a href="/albums/3">Waterloo</a><br />')	
+      expect(response.body).to include('<a href="/albums/4">Super Trouper</a><br />')	
   end
 end
-
-context "GET  /" do
-  it 'contains a h1 title containing greeting hello with a given name' do
-    response = get('/', name: 'Marie')
-    
-    expect(response.status).to eq(200)
-    expect(response.body).to include('<h1>Hello Marie!</h1>')
-  end
-end
-
-
 
 
 context "GET /albums/:id" do
